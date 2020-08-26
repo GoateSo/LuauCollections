@@ -9,6 +9,9 @@ The current fully implemented collections are:
 ### Casing
 - methods and fields are in lowerCamelCase
 - objects themselves are in PascalCase
+### Method Documentation
+- 1 tab : name of parameter & type of parameter/return
+- 2 tabs: description of parameter/return value
 ## Option
 
 Options represent an Optional value (hence their name), and are represented by either a Some
