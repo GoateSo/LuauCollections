@@ -38,6 +38,8 @@ print(Option(0):map(f):filter(p):map(g))  --> None (as opposed to an assertion e
 print(Option(10):map(f):filter(p):map(g)) --> Some(1)
 ```
 
+> Module exports a table of 2 values, the first being the Option object itself, the second being the None object
+
 ## List
 
 Strict List Data Structure
@@ -58,9 +60,12 @@ x <- LList(1,2,3)
 y <- x:prepend(0)
 ```
 both mutates `x` and mutates `y`, which is not ideal with mutable lists.
+
+> Module exports a table of 2 values, the first being the List constructor, the second being the object itself
+
 ## LazyList
 
-LazyList data structure:
+LazyList (Stream) data structure:
 
 Where the evaluation of the head\* and tail are deferred until needed.
 Allows for the construcion of LazyLists of infinite size (using the stream building function "unfold"), for example, the fibonacci sequence:
@@ -71,6 +76,8 @@ local function fibs()
     end)
 end
 ```
+> Module exports a table of 2 values, the first being the LazyList constructor, the second being the object itself
+
 \*: wrapping the evaluation of the head in a function is rather useless due to lua strictly evaluating the value, at the moment, it is more for consistency with the tail, which is deferred via being wrapped in a function. 
 
 Another feature of note is the requirement that the 2nd parameter of the function passed to "foldl" be treated as a function, this too is also useless, but kept in for consistency with "foldr".
