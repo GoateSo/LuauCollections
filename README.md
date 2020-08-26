@@ -1,8 +1,8 @@
 # LuauCollections
 Random assortment of Collections and Utilities for Roblox
 
-##Option
+## Option
 
-##List
+## List
 
-##LazyList
+## LazyList
