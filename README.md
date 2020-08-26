@@ -82,7 +82,7 @@ end
 
 Another feature of note is the requirement that the 2nd parameter of the function passed to "foldl" be treated as a function, this too is also useless, but kept in for consistency with "foldr".
 
-these feature might be subject to removal in the near future to better reflect the behavior of Scala.Collection.Immutable.LazyList
+these feature might be subject to removal in the near future to better reflect the behavior of [Scala.Collection.Immutable.LazyList](https://www.scala-lang.org/api/current/scala/collection/immutable/LazyList.html)
 
 LazyLists share the same assumption of immutability and structure as strict lists, although it's in the form:
 
