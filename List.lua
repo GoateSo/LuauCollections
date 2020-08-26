@@ -1,6 +1,6 @@
-local list = {}
-list.__index = list
-local empty = setmetatable({},list)
+local List = {}
+List.__index = List
+local empty = setmetatable({},List)
 --[[
 prepends h to t, and returns the resulting List
 @params
@@ -13,7 +13,7 @@ prepends h to t, and returns the resulting List
 		resulting List
 ]]
 local function cons(h,t)
-	return setmetatable({head = h,tail = t},list)
+	return setmetatable({head = h,tail = t},List)
 end
 --[[
 creates a List from an arbitrary sequence of elements
@@ -37,27 +37,27 @@ pretty much an alias for cons(x,self)
 	List[A]
 		resulting List
 ]]
-function list:prepend(x)
+function List:prepend(x)
 	return cons(x,self)
 end
 --[[
-Reverses a list
+Reverses a List
 @params
 @return
 	List[A]
 		resulting List
 ]]
-function list:reverse()
-	return self:foldl(setmetatable({},list),function(a,b) return cons(b,a) end)
+function List:reverse()
+	return self:foldl(setmetatable({},List),function(a,b) return cons(b,a) end)
 end
 --[[
-gets the number of elements in the list
+gets the number of elements in the List
 @params
 @return
 	Int
-		number of elements in the list
+		number of elements in the List
 ]]
-function list:getLength()
+function List:getLength()
 	local t = self.tail
 	if self == empty then return 0
 	else return 1+t:getLength() end
@@ -71,7 +71,7 @@ Get the element at the specified index (base 1 indexed)
 	A
 		value at that index
 ]]
-function list:__call(n)
+function List:__call(n)
 	if self == empty or n < 1  then return nil end
 	local h,t = self.head,self.tail
 	if n == 1 then return h
@@ -88,7 +88,7 @@ takes the first n elements of a List, and discards the rest
 		resulting List
 ]]
 
-function list:take(n)
+function List:take(n)
 	local h,t = self.head,self.tail
 	if h and t and n>1 then return cons(h,t:take(n-1))
 	elseif h and n == 1 then return cons(h,empty)
@@ -103,7 +103,7 @@ complement to take, discards the first n elements of a List, and takes the rest
 	List[A]
 		resulting List
 ]]
-function list:drop(n)
+function List:drop(n)
 	local h,t = self.head,self.tail
 	if h and t and n>1 then return t:drop(n-1)
 	elseif h and n==1 then return t
@@ -118,7 +118,7 @@ takes the first n elements of a List which fulfill the given predicate, and disc
 	List[A]
 		resulting List
 ]]
-function list:takeWhile(pred)
+function List:takeWhile(pred)
 	return self:foldr(empty,function(a,ret)
 		if pred(a) then return cons(a,ret)
 		else return empty end
@@ -133,7 +133,7 @@ discards the first section of a List which fulfill the given predicate, and disc
 	List[A]
 		the resulting List
 ]]
-function list:dropWhile(pred)
+function List:dropWhile(pred)
 	local h,t = self.head,self.tail
 	if h then
 		if pred(h) then
@@ -154,7 +154,7 @@ Applies a binary operator(foo) to a start value and all elements of this List, g
 	 B
 		resulting value
 ]]
-function list:foldl(init,f) 
+function List:foldl(init,f) 
 	    if not self.head then return init
 	else 
 		local h,t = self.head,self.tail
@@ -172,12 +172,12 @@ Applies a binary operation to all elements of this List and a start value, going
 	B
 		resulting value
 ]]
-function list:foldr(init,f)
+function List:foldr(init,f)
 	if not self.head then return init 
 	else return f(self.head,self.tail:foldr(init,f)) end 
 end
 --[[
-Applies a binary operation to all elements of this List from left -> right , starting at the head of the list
+Applies a binary operation to all elements of this List from left -> right , starting at the head of the List
 @params
 	f: (A,A) => A
 		binary operation to perform
@@ -185,8 +185,8 @@ Applies a binary operation to all elements of this List from left -> right , sta
 	A
 		resulting value
 ]]
-function list:reduce(f)
-	if not self.head then error("called reduce on empty list") 
+function List:reduce(f)
+	if not self.head then error("called reduce on empty List") 
 	elseif self.tail == empty then return self.head
 	else return self.tail:foldl(self.head,f) end
 end
@@ -199,7 +199,7 @@ Tests whether at least one elements of the List fulfill a predicate
 	Bool
 		whether any elements fulfilled the predicate
 ]]
-function list:exists(pred)
+function List:exists(pred)
 	return self:foldr(false,function(a,s)
 		return pred(a) or s
 	end)
@@ -213,7 +213,7 @@ Tests whether all elements of the List fulfill a predicate
 	Bool
 		whether all elements fulfilled the predicate
 ]]
-function list:forall(pred)
+function List:forall(pred)
 	return self:foldr(true,function(a,s)
 		return pred(a) and s
 	end)
@@ -225,7 +225,7 @@ Gets the length of a List
 	Int
 		Length of the List
 ]]
-function list:getLength()
+function List:getLength()
 	return self:foldl(0,function(a,s)
 		return s+1
 	end)
@@ -239,7 +239,7 @@ Applies a function on all members of an List, and returns the result
 	List[B]
 		resulting List
 ]]
-function list:map(f)
+function List:map(f)
 	return self:foldr(empty,function(a,b)
 		return b:prepend(f(a))
 	end)
@@ -253,7 +253,7 @@ appends a given List to the current List, by prepending all elements of the curr
 	List[A]
 		resulting List
 ]]
-function list:append(l2)
+function List:append(l2)
 	return self:foldr(l2,function(a,b)
 		return b:prepend(a)
 	end)
@@ -267,10 +267,10 @@ flattens a higher order List one level
 @params
 @return
 	List[A]
-		flattened list
+		flattened List
 ]=]
-function list:flatten()
-	return self:foldr(empty,list.append)
+function List:flatten()
+	return self:foldr(empty,List.append)
 end
 --[[
 Builds a new List by applying a function to all elements of this List and using the elements of the resulting List.
@@ -281,7 +281,7 @@ Builds a new List by applying a function to all elements of this List and using 
 	List[B]
 		resulting List
 ]]
-function list:flatmap(f)
+function List:flatmap(f)
 	return self:map(f):flatten()
 end
 --[[
@@ -293,7 +293,7 @@ Takes all members of a List which fulfills a given predicate
 	List[A]
 		resulting List
 ]]
-function list:filter(pred)
+function List:filter(pred)
 	return self:flatmap(function(a)
 		if pred(a) then return mkList(a)
 		else return empty end
@@ -310,7 +310,7 @@ creates a List that is the result of a binary operation applies on corresponding
 	List[C]
 		resulting List
 ]]
-function list:zipWith(l2,f)
+function List:zipWith(l2,f)
 	if (self == empty or l2 == empty) then return empty 
 	else 
 		return self.tail:zipWith(l2.tail,f):prepend(f(self.head,l2.head)) 
@@ -325,33 +325,33 @@ creates a List from this and another List, where the corresponding elements are 
 	List[(A,B)] (its just a two element (strict) List, it's not actually a proper pair type)
 		resulting List
 ]]
-function list:zip(l2)
+function List:zip(l2)
 	return self:zipWith(l2,mkList)
 end
 --[[
-turns a list into a string
+turns a List into a string
 
 impl1:
 	@params
 		a:String (initial string)
 			string that goes at the start of the finished string
 		b:String (seperator)
-			string that seperates elements of the list
+			string that seperates elements of the List
 		c:String (ending string)
 			string that goes at the end of the finished string
 impl2:
 	@params
 		a:String (seperator)
-			string that seperates elements of the list
+			string that seperates elements of the List
 		(start and end become empty strings)
 impl3:
 	@params
 		(all inferred as empty string)
 @return
 	String
-		the representation of a list as a string
+		the representation of a List as a string
 ]]
-function list:mkString(a,b,c)
+function List:mkString(a,b,c)
 	if not c then
 		if not b then
 			local sep = a or ""
@@ -367,18 +367,18 @@ function list:mkString(a,b,c)
 	return almost..c
 end
 --[[
-turns the list into a string with: 
+turns the List into a string with: 
 	an inital string: "List:["
 	a seperator: ","
 	an ending string: "]"
 @params
 @return 
 	String
-		the representation of a list as a string
+		the representation of a List as a string
 ]]
-function list:__tostring()
+function List:__tostring()
 	return self:mkString("List:[",",","]")
 end
 
 
-return {mkList,list}
+return {mkList,List}
