@@ -41,7 +41,7 @@ Strict List Data Structure
 
 Data is represented as a singularly linked list with the following structure:
 
-> List(1,2,3) = cons(1,cons(2,cons(3,empty)))
+	 List(1,2,3) = cons(1,cons(2,cons(3,empty)))
 
 where: empty = the singleton object for the empty List
 
@@ -74,6 +74,6 @@ Another feature of note is the requirement that the 2nd parameter of the functio
 
 LazyLists share the same assumption of immutability and structure as strict lists, although it's in the form:
 
-	> LazyList(1,2,3) = cons(=>1,=>cons(=>2,=>cons(=>3,=>empty)))
+	 LazyList(1,2,3) = cons(=>1,=>cons(=>2,=>cons(=>3,=>empty)))
 	
 where =>x is an alias for ()=>x (see conventions) 
