@@ -1,5 +1,6 @@
 # LuauCollections
-Random assortment of Collections and Utilities for Roblox
+Random assortment of Collections and Utilities for Roblox based on the members of the Scala standard library
+The current fully implemented collections are:
 
 ## Option
 
