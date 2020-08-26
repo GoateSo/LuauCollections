@@ -40,6 +40,8 @@ print(Option(10):map(f):filter(p):map(g)) --> Some(1)
 
 > Module exports a table of 2 values, the first being the Option object itself, the second being the None object
 
+## Either
+
 ## List
 
 Strict List Data Structure
@@ -89,3 +91,5 @@ LazyLists share the same assumption of immutability and structure as strict list
 	 LazyList(1,2,3) = cons(=>1,=>cons(=>2,=>cons(=>3,=>empty)))
 	
 where =>x is an alias for ()=>x (see conventions) 
+
+## Binary Tree
