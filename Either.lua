@@ -33,4 +33,7 @@ end
 function Either.fromPCall(succ,res)
 	return succ and mkRight(res) or mkLeft(res:gsub("^.-%d+: ",""))
 end
+function Either:__eq(that)
+	return self.type == that.type and self.value == that.value
+end
 return {Either,mkLeft,mkRight}
