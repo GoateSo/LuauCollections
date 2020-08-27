@@ -1,5 +1,5 @@
 # LuauCollections
-Random assortment of Collections and Utilities for Roblox based on the members of the Scala standard library
+Random assortment of Collections and Utilities for Roblox based in part on the members of the Scala standard library
 The current fully implemented collections are:
 ## Conventions
 ### Typing
@@ -41,6 +41,24 @@ print(Option(10):map(f):filter(p):map(g)) --> Some(1)
 > Module exports a table of 2 values, the first being the Option object itself, the second being the None object
 
 ## Either
+
+Right-biased Either datatype, based on the scala 2.12+ implementation of Either aswell as Either from scala Cats
+
+Either has a similar usecase to that of `Option`, but it adds the capability to also return a meaningful error message, for example:
+
+```lua
+local function f(x)
+   return x+2
+end
+local function g(x)
+    if x == 0 then return Left("divide by zero")
+    else return Right(100/x)
+end
+print(Right(0):flatMap(g):map(f)) --> Left(divide by zero)
+print(Right(5):flatMap(g):map(f)) --> Right(22)
+```
+
+> Module exports a table of 3 values, the Either object itself, the Left constructor, and the Right constructor
 
 ## List
 
@@ -93,3 +111,20 @@ LazyLists share the same assumption of immutability and structure as strict list
 where =>x is an alias for ()=>x (see conventions) 
 
 ## Binary Tree
+
+Binary Tree data structure, provides abstractions for list traversals, mappings, etc. 
+
+represented as a recursive binary tree with two types of nodes,
+
+Branches:
+```
+Branch(value,
+    Left,
+    Right
+)
+```
+and Leaves:
+```
+Leaf(value?)
+```
+> Module exports a table of 3 values, the first being the Tree object, the second being the Branch Constructor, the third being the Leaf constructor
