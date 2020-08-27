@@ -33,6 +33,25 @@ end
 function Either.fromPCall(succ,res)
 	return succ and mkRight(res) or mkLeft(res:gsub("^.-%d+: ",""))
 end
+function Either:bimap(f,g)
+	if self.type == "Left" then  
+		return f(self.value) 
+	else 
+		return g(self.value)
+	end
+end
+function Either:recover(f) 
+	if self.type == "Left" then
+		return mkRight(f(self.value))
+	end	
+	return self
+end
+function Either:recoverWith(f) 
+	if self.type == "Left" then
+		f(self.value)
+	end	
+	return self
+end
 function Either:__eq(that)
 	return self.type == that.type and self.value == that.value
 end
