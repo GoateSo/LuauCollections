@@ -16,7 +16,7 @@ local function cons(h,t)
 	return setmetatable({head = h,tail = t},List)
 end
 --[[
-creates a List from an arbitrary sequence of elements
+creates a List from an arbitrary sequence of elements (results the empty list if no arguments are provideed, as opposed to creating a new list w/ 0 elements in it)
 @params
 	...:A*
 		sequence of elements 
