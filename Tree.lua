@@ -69,4 +69,12 @@ function Tree:forEach(f)
 		return s
 	end)
 end
+function Tree:__eq(that)
+	local veq = self.value == that.value
+	if self.type == "Leaf" then
+		return that.type == "Leaf" and veq or false
+	else
+		return that.type == "Branch" and (veq and that.left == self.left and that.right == self.right) or false
+	end
+end
 return {Tree,makeBranch,makeLeaf}
