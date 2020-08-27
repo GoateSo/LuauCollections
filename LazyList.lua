@@ -18,7 +18,7 @@ local function cons(h,t) -- h and t being functions
 	return setmetatable({head = h,tail = t},LazyList)
 end
 --[[
-creates a LazyList from an arbitrary sequence of elements
+creates a LazyList from an arbitrary sequence of elements(results the empty LazyList if no arguments are provideed, as opposed to creating a new LazyList w/ 0 elements in it)
 @params
 	...:A*
 		sequence of elements 

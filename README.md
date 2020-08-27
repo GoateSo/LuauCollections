@@ -1,11 +1,12 @@
 # LuauCollections
-Random assortment of Collections and Utilities for Roblox based in part on the members of the Scala standard library
+Random assortment of Collections and Utilities for Roblox based partially on the members of the Scala standard library
 The current fully implemented collections are:
 ## Conventions
 ### Typing
 - Any usage of uppercase `A` in type descriptions refers to the type of the values inside current Object (eg: `LList[A]`)
 - Any usage of `=>X` where X is some type in type descriptions is an alias of `()=>X`, which takes no parameters, and yields a value of type X
 - Any usage of `X*` where X is some type in type descriptions represents a sequence of 0+ values of type X
+- Any free variables within the documentation is to indicate a certain type; all instances of that variable __within the documentation for a particular method are to be thought off as the same type__.
 ### Casing
 - methods and fields are in lowerCamelCase
 - objects themselves are in PascalCase
