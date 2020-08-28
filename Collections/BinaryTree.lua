@@ -3,7 +3,7 @@ Tree.__index = Tree
 local List,LClass = unpack(require(script.Parent.List))
 local emp = setmetatable({type="Leaf"},Tree)
 --[[
-Constructs a leaf from a given value
+Constructs a leaf from a given value, if none is given, it defaults to the empty leaf 
 @params
 	v:A
 		value in question
@@ -12,7 +12,7 @@ Constructs a leaf from a given value
 		resulting Tree
 ]]
 local function makeLeaf(v)
-	return setmetatable({value = v,type="Leaf"},Tree)
+	return v and setmetatable({value = v,type="Leaf"},Tree) or emp
 end
 --[[
 Constructs a Branch from a given value, and two subtrees
