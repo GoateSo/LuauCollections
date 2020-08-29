@@ -140,10 +140,33 @@ function Option:isNonEmpty()
 end
 --[[
 checkers whether an Option contains a value
+@params
+	v:A
+		value in question
+@return
+	Boolean
+		whether it contains that value
 ]]
 function Option:contains(v)
 	if self == None then return false
 	else return self.get == v end
+end
+--[[
+checks value and type equality for Options
+@params
+	that:Option[A]
+		value to be compared to
+@return
+	Boolean
+		Whether they are equivalent
+]]
+function Option:__eq(that)
+	local a,b = rawequal(that,None),rawequal(self,None)
+	if a==b then 
+		return a and true or self.get == that.get
+	else
+		return false
+	end
 end
 
 return {Option,None}
