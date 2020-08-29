@@ -29,6 +29,21 @@ local function mkList(...)
 	else return cons((...),mkList(select(2,...)))end
 end
 --[[
+creates a list given a lower and an upper bound
+@params
+	min:Int
+		lower bound
+	max:Int
+		upper bound
+@return
+	List[Int]
+		resulting list
+]]
+function List.inRange(min,max)
+	assert(min<=max,"lower bound cannot be higher than upper bound")
+	return min == max and mkList(min) or cons(min,List.inRange(min+1,max))
+end
+--[[
 pretty much an alias for cons(x,self)
 @params
 	x:A
