@@ -379,6 +379,18 @@ turns the List into a string with:
 function List:__tostring()
 	return self:mkString("List:[",",","]")
 end
-
+--[[
+compares two lists based on their elements
+@params
+	that:List[B]
+		other List
+@return
+	Boolean
+		whether the two lists are equal
+]]
+function List:__eq(that)
+	if rawequal(that,self) then return true end
+	return self.head == that.head and self.tail == that.tail
+end
 
 return {mkList,List}
