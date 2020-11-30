@@ -2,8 +2,8 @@ local Tree = {}
 Tree.__index = Tree
 local List,LClass = unpack(require(script.Parent.List))
 local emp = setmetatable({type="Leaf"},Tree)
+---Constructs a leaf from a given value, if none is given, it defaults to the empty leaf 
 --[[
-Constructs a leaf from a given value, if none is given, it defaults to the empty leaf 
 @params
 	v:A
 		value in question
@@ -14,53 +14,43 @@ Constructs a leaf from a given value, if none is given, it defaults to the empty
 local function makeLeaf(v)
 	return v and setmetatable({value = v,type="Leaf"},Tree) or emp
 end
+---Constructs a Branch from a given value, and two subtrees
 --[[
-Constructs a Branch from a given value, and two subtrees
 @params
-	v:A
-		value in question
-	l:Tree[A]
-		left subtree
-	r:Tree[A]
-		right subtree
+	v:A = value in question
+	l:Tree[A] =left subtree
+	r:Tree[A] = right subtree
 @return
-	Tree[A]
-		resulting Tree
+	Tree[A] = resulting Tree
 ]]
 local function makeBranch(v,l,r)
 	l = l or emp
 	r = r or emp
 	return setmetatable({value = v,left=l,right=r,type="Branch"},Tree)
 end
+---Gets the maximum depth of the tree 
 --[[
-Gets the maximum depth of the tree 
-@params
 @return
-	Int
-		Depth of the Tree
+	Int = Depth of the Tree
 ]]
 function Tree:getDepth()
 	if self==emp then return 0 end
 	return self.type == "Leaf" and 1 or 1+math.max(self.left:getDepth(),self.right:getDepth())
 end
+---Gets the number of elements in the tree (not counting empty leaves)
 --[[
-Gets the number of elements in the tree (not counting empty leaves)
-@params
 @return
-	Int
-		Size of the Tree
+	Int = Size of the Tree
 ]]
 function Tree:getSize()
 	return self:foldl(0,function(s,a)
 		return s+1
 	end)
 end
+---Converts the tree into a string representation
 --[[
-Converts the tree into a string representation
-@params
 @return
-	String
-		resulting string
+	String = resulting string
 ]]
 function Tree:__tostring()
 	local function prep(n)
@@ -75,14 +65,12 @@ function Tree:__tostring()
 	end
 	return go(self,0)
 end
+---Maps a function to all elements of the tree
 --[[
-Maps a function to all elements of the tree
 @params
-	f:A=>B
-		function to be applied
+	f:A=>B = function to be applied
 @return
-	Tree[B]
-		resulting value
+	Tree[B] = resulting value
 ]]
 function Tree:map(f)
 	if self==emp then return self end
@@ -92,16 +80,13 @@ function Tree:map(f)
 		self.right:map(f)
 	)
 end
+---applies a binary operation on an inital value and all elements of the tree, prioritizing the Leftmost-Deepest node
 --[[
-applies a binary operation on an inital value and all elements of the tree, prioritizing the Leftmost-Deepest node
 @params
-	init:B
-		initial value
-	f:(B,A)=>B
-		binary operation
+	init:B = initial value
+	f:(B,A)=>B = binary operation
 @return
-	B
-		resulting value
+	B = resulting value
 ]]
 function Tree:foldl(init,f)
 	if self == emp then return init end
@@ -112,16 +97,13 @@ function Tree:foldl(init,f)
 		),self.value
 	)
 end
+---applies a binary operation on all elements of the tree and the inital value, prioritizing the Rightmost-Deepest node
 --[[
-applies a binary operation on all elements of the tree and the inital value, prioritizing the Rightmost-Deepest node
 @params
-	init:B
-		initial value
-	f:(A,B)=>B
-		binary operation
+	init:B = initial value
+	f:(A,B)=>B = binary operation
 @return
-	B
-		resulting value
+	B = resulting value
 ]]
 function Tree:foldr(init,f)
 	if self == emp then return init end
@@ -132,24 +114,20 @@ function Tree:foldr(init,f)
 		)
 	)
 end
+---Converts a Tree into a List, with Leftmost-Deepest Node as head
 --[[
-Converts a Tree into a List, with Leftmost-Deepest Node as head
-@params
 @return
-	List[A]
-		resulting list
+	List[A] = resulting list
 ]]
 function Tree:toList()
 	return self:foldr(List(),function(a,s)
 		return s:prepend(a)
 	end)
 end
+---Applies a function on all elements of the tree for their side effects, Prioritizes left subtree (leftmost - deepest)
 --[[
-Applies a function on all elements of the tree for their side effects, Prioritizes left subtree (leftmost - deepest)
 @params
-	f:A=>()
-		function to be applies
-@return
+	f:A=>() = function to be applies
 ]]
 function Tree:forEach(f)
 	self:foldl(self,function(s,a)
@@ -157,14 +135,12 @@ function Tree:forEach(f)
 		return s
 	end)
 end
+---checks type and value equivalence on two trees
 --[[
-checks type and value equivalence on two trees
 @params
-	that:Tree[B]
-		another tree to compare to
+	that:Tree[B] =another tree to compare to
 @return
-	Boolean
-		whether the two are equal
+	Boolean = whether the two are equal
 ]]
 function Tree:__eq(that)
 	local veq = self.value == that.value
