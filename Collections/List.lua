@@ -448,13 +448,13 @@ function List:mkString(a,b,c)
 			if sep == "" or self.head == nil then 
 				return r 
 			else 
-				return r:sub(1,-2) 
+				return r:sub(1,-#sep-1) 
 			end
 		end
 		error("missing ending string for mkstring")
 	end
 	local almost =  a..self:foldl("",function(s,val) return s..tostring(val)..b end)
-	if #b > 0 and self.head then almost = almost:sub(1,-2) end
+	if #b > 0 and self.head then almost = almost:sub(1,-#b-1) end
 	return almost..c
 end
 ---turns the List into a string with:
@@ -481,7 +481,8 @@ function List:sliding(width,step) --width,step
 	step = step or 1
 	local function go(this,l)
 		if this == empty then return empty end
-		return cons(this:take(width),go(this:drop(step),l-step))
+		local r = this:take(width)
+		return r:getLength() == width and cons(r,go(this:drop(step),l-step)) or mkList(r)
 	end
 	return go(self,self:getLength())
 end
