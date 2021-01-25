@@ -481,8 +481,9 @@ function List:sliding(width,step) --width,step
 	step = step or 1
 	local function go(this,l)
 		if this == empty then return empty end
+		local l = this:getLength()
 		local r = this:take(width)
-		return r:getLength() == width and cons(r,go(this:drop(step),l-step)) or mkList(r)
+		return l > width and cons(r,go(this:drop(step),l-step)) or mkList(r)
 	end
 	return go(self,self:getLength())
 end
