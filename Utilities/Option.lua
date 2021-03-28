@@ -1,6 +1,8 @@
 local Option = {}
 Option.__index = Option
-setmetatable(Option,Option)
+setmetatable(Option,{__call = function(self,x)
+	return Option.new(x)		
+end})
 local None = setmetatable({},Option)
 ---Constructs an Option from a given value, giving a nil will become a "None", and giving any other value becomes that value wrapped within the context of Option
 --[[
@@ -132,4 +134,4 @@ function Option:__eq(that)
 	end
 end
 
-return {Option.new,Option,None}
+return {Option,None}
